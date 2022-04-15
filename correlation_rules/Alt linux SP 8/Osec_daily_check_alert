@@ -1,0 +1,29 @@
+event Osec_daily_check:
+    key:
+        event_src.host
+    filter {
+        (datafield7 == "edit"
+            and id == "Dotpwnpewpew_ALT_linux_osec_daily_check")
+    }
+
+rule Alt_linux_osec_daily_check:
+Osec_daily_check
+on Osec_daily_check {
+    $event_src.host = event_src.host
+}
+
+emit {
+    $correlation_name = "Alt_linux_osec_daily_check"
+    $correlation_type = "incident"
+
+    $category.generic = ""
+    $category.high = ""
+    $category.low = ""
+
+    $id = "Alt_linux_osec_daily_check"
+    $importance = "medium"
+}
+
+# Metadata
+# correlation_name = "Alt_linux_osec_daily_check"
+# На узле {event_src.host} нарушение контроля целосности {correlation_name}
