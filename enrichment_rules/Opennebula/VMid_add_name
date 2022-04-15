@@ -1,0 +1,16 @@
+# Добавление имя виртуальной машины. Так же необходимо добавить "Табличный список" с колонками: id, vm_id, vm_name
+
+query VMid_add_name($vm_id) from VM_id_table {
+    column::vm_id == $vm_id
+}
+
+event VM_monitoring:
+    filter {
+        id == "Dotpwnpewpew_Opennebula_vm_monitoring"
+    }
+
+enrichment VMid_add_name_en
+	enrich VM_monitoring:
+      enrich_fields {
+          datafield4 = select_query_first("VMid_add_name", [datafield3], "vm_name")
+  	  }
