@@ -1,0 +1,30 @@
+event Trashd_restart_always:
+    key:
+        event_src.host, datafield1
+    filter {
+        (datafield1 == "SN trashd restart"
+        and id == "Dotpwnpewpew_Secret_Net_LSP_trashd_restart")
+    }
+
+
+rule Trashd_restart_always:
+Trashd_restart_always[5] within 5m
+on Trashd_restart_always {
+    $event_src.host = event_src.host
+}
+
+emit {
+    $correlation_name = "Trashd_restart_always"
+    $correlation_type = "incident"
+
+    $category.generic = ""
+    $category.high = ""
+    $category.low = ""
+
+    $id = "Trashd_restart_always"
+    $importance = "high"
+}
+
+# Metadata
+# correlation_name = "Trashd_restart_always"
+# {correlation_name} на узле {event_src.host}
