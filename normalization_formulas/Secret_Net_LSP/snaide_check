@@ -32,3 +32,7 @@ status = "success"
 importance = "info"
 
 id = "Dotpwnpewpew_Secret_Net_LSP_snaide_check"
+
+# Metadata
+# id = "Incoma_secret_net_LSP" and action = "check" and datafield1 = "snaide" and datafield3 != NULL
+# На узле {event_src.hostname} {datafield3}
