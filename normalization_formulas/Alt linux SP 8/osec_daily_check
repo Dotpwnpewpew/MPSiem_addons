@@ -1,0 +1,38 @@
+#<13>Apr 13 09:40:26 host1 osec[274363]: [osec] Daily security check (chg=10,add=11,del=20) -- host1.localhost
+
+TEXT='<{NUMBER}>{time=DATETIME} {event_src.hostname=HOSTNAME} osec{"["?}{NUMBER?}{"]"?}: 
+        {"["?}{$osec="osec"|$osec="osec:integalert"}{"]"?} Daily security check 
+        (chg={datafield3=NUMBER},add={datafield4=NUMBER},del={datafield5=NUMBER})
+        {$message_alt=REST}'
+
+datafield1 = "osec"
+datafield2 = $osec
+
+action = "check"
+status = "success"
+
+event_src.vendor = "Alt linux"
+event_src.title = "Alt linux"
+event_src.category = "Host security"
+
+object.type="filesystem"
+subject = "application"
+subject.name="osec"
+
+if datafield3 == "0" and datafield4 == "0" and datafield5 == "0"  then
+    datafield6 = "все файлы соответствуют базе данных osec"
+    datafield7 = "good"
+    importance = "info"
+else
+    datafield7 = "edit"
+    importance = "high"
+endif
+
+id = "Dotpwnpewpew_ALT_linux_osec_daily_check"
+
+# Metadata
+# id = "Dotpwnpewpew_ALT_linux_osec_daily_check" and datafield7 = "edit"
+# На узле {event_src.hostname} произошли изменения. chg={datafield3}, add={datafield4}, del={datafield5} файлов
+
+# id = "Dotpwnpewpew_ALT_linux_osec_daily_check" and datafield7 = "good"
+# На узле {event_src.hostname} {datafield6}
