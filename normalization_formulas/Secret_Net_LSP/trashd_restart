@@ -20,3 +20,7 @@ datafield1 = "SN trashd restart"
 datafield2 = $message_lsp
         
 id = "Dotpwnpewpew_Secret_Net_LSP_trashd_restart"
+
+# Metadata
+# id = "Incoma_Securuty_Code_Secret_Net_LSP_trashd_restart"
+# На узле {event_src.hostname} перезагрузился сервис {subject.name}
