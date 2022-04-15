@@ -1,0 +1,28 @@
+#апр 11 11:12:45 host1 audit[710933]: VIRT_CONTROL pid=710933 uid=0 auid=4294967295 ses=4294967295 msg='virt=kvm op=stop reason=shutdown vm="one-122" uuid=8af447d3-03ec-43fe-b5e7-1a7d6062bca4 vm-pid=-1 exe="/usr/sbin/libvirtd" hostname=? addr=? terminal=? res=success'
+#апр 11 11:20:27 host1 audit[3507174]: VIRT_CONTROL pid=3507174 uid=0 auid=4294967295 ses=4294967295 msg='virt=kvm op=start reason=booted vm="one-122" uuid=f0d898e1-c273-42b4-bc70-a67012994f02 vm-pid=3512199 exe="/usr/sbin/libvirtd" hostname=? addr=? terminal=? res=success'
+
+TEXT='<{NUMBER}>{time=DATETIME} {event_src.hostname=HOSTNAME} audit{"["?}{NUMBER?}{"]"?}: 
+        VIRT_CONTROL {$kv=KEYVALUE(" ","=")}'
+COND = ($kv["reason"]=="booted" or $kv["reason"]=="shutdown" and $kv["res"]=="success'" )
+
+datafield1 = "opennebula"
+status = "success"
+
+object = "virtual_machine"
+subject = "host"
+
+datafield2 = $kv["reason"]
+datafield3 = strip($kv["vm"],'"one-', '"')
+action = $kv["op"]
+
+if datafield2 == 'shutdown' then
+    importance = "high"
+elif datafield2 == 'booted' then
+    importance = "info"
+endif
+
+id = "Dotpwnpewpew_Opennebula_vm_monitoring"
+
+# Metadata
+# id = "Dotpwnpewpew_Opennebula_vm_monitoring"
+# VM name {datafield4} {datafield2} (id {datafield3})
