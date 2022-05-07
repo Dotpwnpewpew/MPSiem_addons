@@ -102,8 +102,9 @@ def write_incident_file(file_name, incident):
 
 def send_telegram_message(inc, settings):
     url = settings['core_url'] + """/#/incident/incidents/view/""" + inc["id"]
+    description = session.get(settings['core_url'] + '/api/incidentsReadModel/incidents/' + inc["id"]).text
     msg = ""
-    msg += "[" + inc["key"] +"](" + url + ")  [" + inc['name'] + "]"
+    msg += "[" + inc["key"] +"](" + url + ")  [" + json.loads(description)["description"] + "]"
     #https:// text part didn't work for me when passing in HTML parse_mode
     requests.post("https://api.telegram.org/bot" + settings['token'] + "/sendMessage", data = {'chat_id': settings['chat_id'], 'text':msg, 'parse_mode': 'Markdown'})
   
