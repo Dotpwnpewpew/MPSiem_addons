@@ -1,0 +1,23 @@
+#<14>Apr 7 08:11:48 host1 MySQL_Backup[3232597]:  MySQL Backup success
+#<14>Apr 7 08:11:48 host1 MySQL_Backup[3232598]:  MySQL Backup failure
+
+TEXT='<{NUMBER}>{time=DATETIME} {event_src.hostname=HOSTNAME} 
+        MySQL_Backup{"["?}{NUMBER?}{"]"?}: MySQL Backup {status=WORD}'
+        
+event_src.vendor = "MySQL"
+event_src.title = "MySQL_backup_check"
+event_src.category = "Backup server"
+
+subject = "application"
+action = "backup"
+object = "command"
+
+if status == 'success' then
+    importance = "info"
+else 
+    importance = "high"
+endif
+
+
+
+id = "Incoma_MySQL_backup_check"

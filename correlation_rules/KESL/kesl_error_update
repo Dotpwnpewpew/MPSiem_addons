@@ -1,0 +1,36 @@
+event Update_error:
+    key:
+        event_src.host
+    filter {
+        (object.value == "UpdateError"
+
+            and status == "failure"
+
+            and event_src.vendor == "kaspersky")
+
+    }
+
+
+rule Kesl_update_error:
+
+Update_error
+
+on Update_error {
+
+    $event_src.host = event_src.host
+}
+
+
+
+emit {
+    $correlation_name = "Kesl_update_error"
+    $correlation_type = "event"
+
+    $category.generic = ""
+    $category.high = ""
+    $category.low = ""
+
+    $id = "Kesl_update_error"
+    $importance = "medium"
+
+}
