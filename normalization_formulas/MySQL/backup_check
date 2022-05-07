@@ -20,4 +20,4 @@ endif
 
 
 
-id = "Incoma_MySQL_backup_check"
+id = "PT_Custom_MySQL_backup_check"
