@@ -1,0 +1,24 @@
+TEXT = '<{NUMBER}> {time=DATETIME} {event_src.hostname=STRING} system=tvs, type={datafield1="USER_INFO_REQUEST"}, {$kv=REST}'
+
+$result=keyvalue($kv, ",", "=")
+subject = "account"
+object = "resource"
+subject.name=$result["username"]
+
+src.hostname=$result["hostName"]
+src.ip=$result["ipAddress"]
+
+datafield2="realmId="+$result["realmId"]
+datafield3="clientId="+$result["clientId"]
+datafield4="vmId="+$result["vmId"]
+datafield5="userId="+$result["userId"]
+datafield6="signature_algorithm="+$result["signature_algorithm"]
+datafield7="signature_required="+$result["signature_required"]
+datafield8="auth_method="+$result["auth_method"]
+# datafield9="requestUri="+$result["requestUri"]
+
+event_src.vendor = "Tionix"
+event_src.title = "Virtual Security"
+event_src.category = "Application server"
+
+id = "PT_Custom_Tionix_VS_user_info_request"
