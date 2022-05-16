@@ -1,0 +1,62 @@
+!TEXT = "{STRING?} {NUMBER?} {time = DATETIME} {event_src.ip = ipv4} - {action = STRING?} [ {$s = UNTIL(']')}  {$a = REST}"
+
+submessage("TEXT","Action",$s)
+subformula 'Action'
+    TEXT = '{$f=KEYVALUE(" ","=")}'
+    status = $f["result"]
+    subject.id = $f["ip"]
+    $login = $f["login"]
+    $app = $f["app"]
+    logon_type = $f["given_factor"]
+    $login_owner = $f["login_owner"]
+    datafield3 = $f["fio_owner"]
+endsubformula
+
+if action=="USRAUTH"then
+    object=$app
+    subject = $login
+    if   status=="ok" then
+        $q=find_substr($a,"logout")
+        if $q!=null then
+            datafield6='пользователь вышел'
+        else    
+            datafield6="пользователь аутентифицировался"
+        endif
+    elif status=="fail" then
+        datafield6="ошибка аутентификации"
+    endif
+elif action=="USRMGMT" then
+    object=$login
+    subject=$login_owner
+    $q=find_substr($a,"unlocked")
+    $r=find_substr($a,"locked") 
+    $t=find_substr($a,"password was changed")
+    $x=find_substr($a,"group access")
+    $y=find_substr($a,"was removed")
+    $z=find_substr($a,"was created")
+    if $q!=null then
+        datafield6='УЗ разблокирована'
+    elif $r!=null then
+        datafield6='УЗ заблокирована'
+    elif $t!=null then
+        datafield6='изменен пароль'
+    elif $x!=null then
+        datafield6='изменены права доступа'
+    elif $y!=null then
+        datafield6='УЗ удалена'    
+    elif $z!=null then
+        datafield6='УЗ создана' 
+    endif 
+elif action=="USRACS" then
+    object=$app
+    subject = $login    
+    $q=find_substr($a,"success")
+    $r=find_substr($a,"failed") 
+    if $q!=null then
+        datafield6='пользователь получил доступ к приложению'
+    elif $r!=null then
+        datafield6='пользователь не получил доступа к приложению'
+    endif 
+endif
+
+id = "PT_Custom_Avanpost_WebSSO_user_access"
