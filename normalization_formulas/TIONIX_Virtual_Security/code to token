@@ -1,0 +1,23 @@
+TEXT = '<{NUMBER}> {time=DATETIME} {event_src.hostname=STRING} system=tvs, type={datafield1="CODE_TO_TOKEN"}, {$kv=REST}'
+
+$result=keyvalue($kv, ",", "=")
+subject = "account"
+object = "resource"
+
+src.hostname=$result["hostName"]
+src.ip=$result["ipAddress"]
+
+datafield2="realmId="+$result["realmId"]
+datafield3="clientId="+$result["clientId"]
+datafield4="vmId="+$result["vmId"]
+datafield5="userId="+$result["userId"]
+datafield6="grant_type="+$result["grant_type"]
+datafield7="scope="+$result["scope"]
+datafield8="client_auth_method="+$result["client_auth_method"]
+# datafield9="requestUri="+$result["requestUri"]
+
+event_src.vendor = "Tionix"
+event_src.title = "Virtual Security"
+event_src.category = "Application server"
+
+id = "PT_Custom_Tionix_VS_Code_To_Token"
