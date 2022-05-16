@@ -1,0 +1,26 @@
+# <14>Apr 20 10:25:06 tionix system=tvs, type=LOGOUT, realmId=master, clientId=null, vmId=null, nodeId=null, hostName=tionix, userId=c281bb89-cabf, ipAddress=192.168.0.1, redirect_uri=http://tvs.tionix.test:80/webadmin/, authSessionParentId=943bcc51-5101, authSessionTabId=AkalRvl5ZW4, requestUri=http://tvs.tionix.test:80/realms/master/protocol/openid-connect/logout?post_logout_redirect_uri=http%3A%2F%2Ftvs.tionix.test%3A8080%2Fwebadmin%2F, cookies=[KEYCLOAK_SESSION_LEGACY=master/c281bb89-cabf-431f/943bc_c51, KEYCLOAK_IDENTITY_LEGACY=eyJhbGciOiJ, AUTH_SESSION_ID=943b_cc5.tionix-security]
+
+TEXT = '<{NUMBER}> {time=DATETIME} {event_src.hostname=STRING} system=tvs, type={datafield1="LOGOUT"}, {$kv=REST}'
+
+$result=keyvalue($kv, ",", "=")
+subject = "account"
+object = "resource"
+#subject.name=$result["username"]
+
+src.hostname=$result["hostName"]
+src.ip=$result["ipAddress"]
+
+datafield2="realmId="+$result["realmId"]
+datafield3="clientId="+$result["clientId"]
+datafield4="vmId="+$result["vmId"]
+datafield5="userId="+$result["userId"]
+
+event_src.vendor = "Tionix"
+event_src.title = "Virtual Security"
+event_src.category = "Application server"
+
+id = "PT_Custom_Tionix_VS_Logout"
+
+# Metadata
+# id = "PT_Custom_Tionix_VS_Logout"
+# Realm: {datafield2}. Сессия пользователя {datafield10} закрыта
