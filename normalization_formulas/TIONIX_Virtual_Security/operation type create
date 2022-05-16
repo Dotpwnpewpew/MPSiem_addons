@@ -1,0 +1,24 @@
+TEXT = '<{NUMBER}> {time=DATETIME} {event_src.hostname=STRING} system=tvs, operationType={datafield1="CREATE"}, {$kv=REST}'
+
+$result=keyvalue($kv, ",", "=")
+subject = "account"
+object = "resource"
+# subject.name=$result["username"]
+
+src.hostname=$result["hostName"]
+src.ip=$result["ipAddress"]
+
+datafield2="realmId="+$result["realmId"]
+datafield3="clientId="+$result["clientId"]
+
+datafield5="userId="+$result["userId"]
+datafield6="resourceType="+$result["resourceType"]
+datafield7="resourcePath="+$result["resourcePath"]
+
+# datafield9="requestUri="+$result["requestUri"]
+
+event_src.vendor = "Tionix"
+event_src.title = "Virtual Security"
+event_src.category = "Application server"
+
+id = "PT_Custom_Tionix_VS_operation_type_create"
