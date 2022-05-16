@@ -1,0 +1,32 @@
+#<14>Apr 20 10:24:59 tionix system=tvs, type=LOGIN, realmId=master, clientId=security-admin-console, vmId=null, nodeId=null, hostName=tionix, userId=c281bb89-cabf-431f, 
+ipAddress=192.168.0.1, auth_method=openid-connect, auth_type=code, redirect_uri=http://tvs.eaes.dom:80/webadmin/callback?client_name=OidcClient, 
+consent=no_consent_required, code_id=943bcc51-5101, username=admin, authSessionParentId=943bcc51-5101, authSessionTabId=3Sy7zPpvRzo,
+requestUri=http://tvs.eaes.dom:80/realms/master/login-actions/authenticate?session_code=sbw4YB36-HC8&client_id=security-admin-console&tab_id=3Sy7zPpvRzo, cookies=[KC_RESTART=eyJhbGciOiJ, AUTH_SESSION_ID=943bcc51-5101.tionix-security]
+
+TEXT = '<{NUMBER}> {time=DATETIME} {event_src.hostname=STRING} system=tvs, type={datafield1="LOGIN"}, {$kv=REST}'
+
+$result=keyvalue($kv, ",", "=")
+subject = "account"
+object = "resource"
+subject.name=$result["username"]
+
+src.hostname=$result["hostName"]
+src.ip=$result["ipAddress"]
+
+datafield2= $result["realmId"]
+datafield3= $result["clientId"]
+datafield4="vmId="+$result["vmId"]
+datafield5= $result["userId"]
+datafield6="auth_type="+$result["auth_type"]
+datafield7="consent="+$result["consent"]
+datafield8= $result["auth_method"]
+
+event_src.vendor = "Tionix"
+event_src.title = "Virtual Security"
+event_src.category = "Application server"
+
+id = "PT_Custom_Tionix_VS_Login"
+
+# Metadata
+# id = "PT_Custom_Tionix_VS_Login"
+# Realm: {datafield2}. Пользователь {subject.name} успешно авторизован
